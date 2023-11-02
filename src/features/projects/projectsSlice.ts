@@ -1,8 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
+import { Project } from '../../dataStructure';
 
 export interface ProjectsState {
-  value: string[];
+  value: Project[];
   status: 'idle' | 'loading' | 'failed';
 }
 
@@ -15,8 +16,13 @@ export const projectsSlice = createSlice({
   name: 'projects',
   initialState,
   reducers: {
-    add: (state) => {
-      state.value.push('test');
+    add: (state, action: PayloadAction<Project>) => {
+      const {name, title} = action.payload;
+
+      state.value.unshift({
+        name,
+        title
+      });
     },
   }
 });
