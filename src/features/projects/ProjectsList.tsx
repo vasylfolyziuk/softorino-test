@@ -4,10 +4,11 @@ import { Project } from '../../dataStructure';
 
 interface Props {
   projects: Project[];
+  remove: (name: string) => void;
 }
 
 function ProjectsList(props: Props) {
-  const {projects} = props;
+  const {projects, remove} = props;
 
   return (
     <>
@@ -16,6 +17,7 @@ function ProjectsList(props: Props) {
           key={project.name + index.toString()}
           name={project.name}
           title={project.title}
+          remove={remove}
         />
       ))}
     </>

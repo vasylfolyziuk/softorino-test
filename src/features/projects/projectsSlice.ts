@@ -24,10 +24,18 @@ export const projectsSlice = createSlice({
         title
       });
     },
+    remove: (state, action: PayloadAction<string>) => {
+      const name = action.payload;
+      const index = state.value.findIndex((project: Project) => project.name === name);
+
+      if (index > -1) {
+        state.value.splice(index, 1);
+      }
+    },
   }
 });
 
-export const { add } = projectsSlice.actions;
+export const { add, remove } = projectsSlice.actions;
 
 export const selectProjects = (state: RootState) => state.projects.value;
 

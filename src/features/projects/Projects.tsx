@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import CreateProjectForm from './CreateProjectForm';
 import {
   add,
+  remove,
   selectProjects
 } from './projectsSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -19,6 +20,10 @@ export function Projects() {
     dispatch(add({name, title}));
     setName('');
     setTitle('');
+  }
+
+  const handleRemove = (name: string) => {
+    dispatch(remove(name));
   }
 
   return (
@@ -38,6 +43,7 @@ export function Projects() {
       <div>
         <ProjectsList
           projects={projects}
+          remove={handleRemove}
         />
       </div>
     </div>
