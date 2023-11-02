@@ -1,16 +1,20 @@
 
+import { Navbar } from 'flowbite-react';
 import React from 'react';
 
 function NavBar() {
   return (
-    <ul>
-      <li>
-        <a className="text-blue-500 hover:text-blue-800" href="#">Projects</a>
-      </li>
-      <li>
-        <a className="text-blue-500 hover:text-blue-800" href="#">Login/Logout</a>
-      </li>
-    </ul>
+    <Navbar fluid rounded className='pt-5 pb-5 bg-slate-300'>
+      <Navbar.Toggle />
+      <Navbar.Collapse>
+        <Navbar.Link href="#" active>
+          Projects
+        </Navbar.Link>
+        <Navbar.Link href="#">
+          Login
+        </Navbar.Link>
+      </Navbar.Collapse>
+    </Navbar>
   );
 }
 

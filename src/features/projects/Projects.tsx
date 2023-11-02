@@ -3,49 +3,52 @@ import React, { useState } from 'react';
 import CreateProjectForm from './CreateProjectForm';
 import {
   add,
+  edit,
   remove,
   selectProjects
 } from './projectsSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import ProjectsList from './ProjectsList';
+import { Button } from 'flowbite-react';
+import SaveProjectModal from './SaveProjectModal';
+import { Project } from '../../dataStructure';
 
 export function Projects() {  
   const dispatch = useAppDispatch();
   const projects = useAppSelector(selectProjects);
 
-  const [name, setName] = useState<string>('');
-  const [title, setTitle] = useState<string>('');
+  const [openAddNewProjectModal, setAddNewProjectModal] = useState<boolean>(false);
 
-  const handleCreate = () => {
-    dispatch(add({name, title}));
-    setName('');
-    setTitle('');
+  const handleCreate = (project: Project) => {
+    dispatch(add(project));
+    setAddNewProjectModal(false);
   }
 
-  const handleRemove = (name: string) => {
-    dispatch(remove(name));
+  const handleEdit = (project: Project) => {
+    dispatch(edit(project));
+  }
+
+  const handleRemove = (id: number) => {
+    dispatch(remove(id));
   }
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">
-        Projects
-      </h1>
-      <div>
-        <CreateProjectForm 
-          name={name}
-          title={title}
-          onChangeName={setName}
-          onChangeTitle={setTitle}
-          save={handleCreate}
-        />
+    <div className='mt-10'>
+      <div className='flex justify-items-end mt-4 mb-4'>
+        <Button onClick={() => setAddNewProjectModal(true)}>Add New Project</Button>
       </div>
-      <div>
-        <ProjectsList
-          projects={projects}
-          remove={handleRemove}
-        />
-      </div>
+      
+      <ProjectsList
+        projects={projects}
+        edit={handleEdit}
+        remove={handleRemove}
+      />
+
+      <SaveProjectModal
+        openModal={openAddNewProjectModal}
+        setOpenModal={setAddNewProjectModal}
+        onConfirmSave={handleCreate}
+      />
     </div>
   );
 }
