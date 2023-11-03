@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 
-import CreateProjectForm from './CreateProjectForm';
 import {
-  add,
-  edit,
-  remove,
+  addProject,
+  editProject,
+  removeProject,
   selectProjects
 } from './projectsSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -13,23 +12,23 @@ import { Button } from 'flowbite-react';
 import SaveProjectModal from './SaveProjectModal';
 import { Project } from '../../dataStructure';
 
-export function Projects() {  
+function Projects() {  
   const dispatch = useAppDispatch();
   const projects = useAppSelector(selectProjects);
 
   const [openAddNewProjectModal, setAddNewProjectModal] = useState<boolean>(false);
 
   const handleCreate = (project: Project) => {
-    dispatch(add(project));
+    dispatch(addProject(project));
     setAddNewProjectModal(false);
   }
 
   const handleEdit = (project: Project) => {
-    dispatch(edit(project));
+    dispatch(editProject(project));
   }
 
-  const handleRemove = (id: number) => {
-    dispatch(remove(id));
+  const handleRemove = (id: string) => {
+    dispatch(removeProject(id));
   }
 
   return (
@@ -44,11 +43,15 @@ export function Projects() {
         remove={handleRemove}
       />
 
-      <SaveProjectModal
-        openModal={openAddNewProjectModal}
-        setOpenModal={setAddNewProjectModal}
-        onConfirmSave={handleCreate}
-      />
+      {openAddNewProjectModal && (
+        <SaveProjectModal
+          openModal={openAddNewProjectModal}
+          setOpenModal={setAddNewProjectModal}
+          onConfirmSave={handleCreate}
+        />
+      )}
     </div>
   );
 }
+
+export default Projects;

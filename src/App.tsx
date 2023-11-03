@@ -1,5 +1,5 @@
 import React from 'react';
-import { Projects } from './features/projects/Projects';
+import Projects from './features/projects/Projects';
 import NavBar from './features/Navbar/NavBar';
 
 import './App.css';

@@ -6,7 +6,7 @@ import { Table } from 'flowbite-react';
 interface Props {
   projects: Project[];
   edit: (project: Project) => void;
-  remove: (id: number) => void;
+  remove: (id: string) => void;
 }
 
 function ProjectsList(props: Props) {
@@ -25,9 +25,9 @@ function ProjectsList(props: Props) {
       <Table.Body className="divide-y">
         {projects.length > 0 && (
           <>
-            {projects.map((project: Project, index: number) => (
+            {projects.map((project: Project) => (
               <ProjectItem
-                key={project.name + index.toString()}
+                key={project.id}
                 project={project}
                 save={edit}
                 remove={remove}

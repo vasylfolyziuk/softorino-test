@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import { Link, NavLink } from "react-router-dom";
-import DeleteProjectModal from './DeleteProjectModal';
 import { Button, Table } from 'flowbite-react';
-import SaveProjectModal from './SaveProjectModal';
-import { Project } from '../../dataStructure';
+import DeleteTaskModal from './DeleteTaskModal';
+import SaveTaskModal from './SaveTaskModal';
+import { Task } from '../../dataStructure';
 
 interface Props {
-  project: Project;
-  save: (project: Project) => void;
+  task: Task;
+  save: (task: Task) => void;
   remove: (id: string) => void;
 }
 
-function ProjectItem(props: Props) {
-  const {project, save, remove} = props;
+function TaskItem(props: Props) {
+  const {task, save, remove} = props;
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
   const onConfirmDelete = () => {
-    remove(project.id);
+    remove(task.id);
     setOpenDeleteModal(false);
   }
 
@@ -25,12 +24,10 @@ function ProjectItem(props: Props) {
     <>
       <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
         <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-          <Link to={`/projects/${project.id.toString()}`} className='text-blue-600'>
-            {project.name}
-          </Link>
+          {task.name}
         </Table.Cell>
         <Table.Cell>
-          {project.title}
+         {task.done ? 'done' : '-'}
         </Table.Cell>
         <Table.Cell>
           <Button size='sm' className='inline-flex mr-4' onClick={() => setOpenEditModal(true)}>Edit</Button>
@@ -41,16 +38,16 @@ function ProjectItem(props: Props) {
       </Table.Row>
 
       {openEditModal && (
-        <SaveProjectModal
+        <SaveTaskModal
           openModal={openEditModal}
-          project={project}
+          task={task}
           setOpenModal={setOpenEditModal}
           onConfirmSave={save}
           editMode
         />
       )}
       
-      <DeleteProjectModal
+      <DeleteTaskModal
         openModal={openDeleteModal}
         setOpenModal={setOpenDeleteModal}
         onConfirmDelete={onConfirmDelete}
@@ -59,4 +56,4 @@ function ProjectItem(props: Props) {
   );
 }
 
-export default ProjectItem;
+export default TaskItem;

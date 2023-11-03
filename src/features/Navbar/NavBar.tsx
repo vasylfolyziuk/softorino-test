@@ -1,6 +1,7 @@
 
 import { Navbar } from 'flowbite-react';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function NavBar() {
   return (
@@ -8,7 +9,9 @@ function NavBar() {
       <Navbar.Toggle />
       <Navbar.Collapse>
         <Navbar.Link href="#" active>
-          Projects
+          <Link to='/' className='text-blue-600'>
+            Projects
+          </Link>
         </Navbar.Link>
         <Navbar.Link href="#">
           Login

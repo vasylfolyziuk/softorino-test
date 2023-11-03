@@ -1,32 +1,32 @@
-import { Button, Label, Modal, TextInput, Textarea } from 'flowbite-react';
+import { Button, Checkbox, Label, Modal, TextInput, Textarea } from 'flowbite-react';
 import { useState } from 'react';
-import { Project } from '../../dataStructure';
+import { Task } from '../../dataStructure';
 
 interface Props {
   openModal: boolean;
-  project?: Project;
+  task?: Task;
   editMode?: boolean;
   setOpenModal: (open: boolean) => void;
-  onConfirmSave: (project: Project) => void;
+  onConfirmSave: (task: Task) => void;
 }
 
-function SaveProjectModal(props: Props) {
+function SaveTaskModal(props: Props) {
   const {
     openModal,
-    project,
+    task,
     editMode,
     setOpenModal,
     onConfirmSave
   } = props;
 
-  const [name, setName] = useState<string>(editMode ? project?.name || '' : '');
-  const [title, setTitle] = useState<string>(editMode ? project?.title || '' : '');
+  const [name, setName] = useState<string>(editMode ? task?.name || '' : '');
+  const [done, setDone] = useState<boolean>(editMode ? task?.done || false : false);
 
   const onSave = () => {
-    onConfirmSave(editMode && project ? {id: project.id, name, title} : {name, title} as Project );
+    onConfirmSave(editMode && task ? {
+      id: task.id, projectId: task.projectId, name, done
+    } : {name, done} as Task );
 
-    setName('');
-    setTitle('');
     setOpenModal(false);
   }
 
@@ -36,7 +36,7 @@ function SaveProjectModal(props: Props) {
       onClose={() => setOpenModal(false)}
     >
       <Modal.Header>
-        {editMode ? 'Edit Project' : 'Create New Project'}
+        {editMode ? 'Edit Task' : 'Create New Task'}
       </Modal.Header>
       <Modal.Body>
         <div className="mb-2 block">
@@ -50,17 +50,10 @@ function SaveProjectModal(props: Props) {
           onChange={(e) => setName(e.target.value)}
           required
         />
-        <div className="mb-2 block">
-          <Label htmlFor="title" value="Title" />
+        <div className="mt-4 block flex items-center gap-2">
+          <Checkbox id="completed" checked={done} onChange={(e) => setDone(e.target.checked)}/>
+          <Label htmlFor="completed">Completed</Label>
         </div>
-        <Textarea
-          id="title"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          rows={4}
-          required
-        />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onSave}>
@@ -74,4 +67,4 @@ function SaveProjectModal(props: Props) {
   );
 }
 
-export default SaveProjectModal;
+export default SaveTaskModal;
