@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import {
   addProject,
@@ -11,10 +11,13 @@ import ProjectsList from './ProjectsList';
 import { Button } from 'flowbite-react';
 import SaveProjectModal from './SaveProjectModal';
 import { Project } from '../../dataStructure';
+import { Navigate } from 'react-router-dom';
+import { AppContext } from '../../AppContextProvider';
 
 function Projects() {  
   const dispatch = useAppDispatch();
   const projects = useAppSelector(selectProjects);
+  const {isAuth} = useContext(AppContext);
 
   const [openAddNewProjectModal, setAddNewProjectModal] = useState<boolean>(false);
 
@@ -29,6 +32,10 @@ function Projects() {
 
   const handleRemove = (id: string) => {
     dispatch(removeProject(id));
+  }
+
+  if (!isAuth) {
+    return <Navigate replace to="/login" />;
   }
 
   return (

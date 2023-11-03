@@ -6,15 +6,18 @@ import { store } from './app/store';
 import reportWebVitals from './reportWebVitals';
 import { router } from './routes';
 import './index.css';
+import AppContextProvider from './AppContextProvider';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />;
-    </Provider>
+    <AppContextProvider>
+      <Provider store={store}>
+        <RouterProvider router={router} />;
+      </Provider>
+    </AppContextProvider>
   </React.StrictMode>
 );
 
